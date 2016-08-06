@@ -1,0 +1,27 @@
+.sidebar{
+	text-align:center;
+}
+
+.workspace{
+	min-height: 728px;
+	padding: 10px;
+	position:relative;
+	
+}
+
+.note{
+	position: absolute;
+}
+
+.note h3{
+	height: 15px;
+}
+
+.note .panel-body{
+	min-width: 200px;
+	min-height: 100px;
+}
+
+.note .glyphicon{
+	cursor: pointer;
+}

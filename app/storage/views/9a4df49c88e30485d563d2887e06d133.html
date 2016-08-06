@@ -1,0 +1,90 @@
+
+<?php $__env->startSection('content'); ?>
+<div class="container main-container">
+	<div class="row">
+
+		<!-- Column for notifications -->
+		<div class="col-md-4">
+			<h1>Groups</h1>
+			<div style="background-color:#FAFAFA;padding:5px;padding-left:20px;">
+				<h3><a href="addgroup">Create A New Group</a></h3>
+				<div style="height:500px;overflow-y:auto;padding:5px;">
+					<?php if(isset($groups) && count($groups)>0): ?>
+						<div class="list-group">
+							<?php foreach($groups as $group): ?>
+							<a href="group?id=<?php echo $group->id; ?>" class="list-group-item"><?php echo $group->group_name; ?></a>
+							<?php endforeach; ?>
+						</div>
+					<?php endif; ?>
+				</div>
+			</div>
+		</div>
+
+		<div class="col-md-8">
+			<div class="row">
+				<h1>Notifications</h1>
+				<div class="notifications" style="padding:2px;">
+					<?php if($count>0): ?>
+						<?php foreach($notifications as $notification): ?>
+							<?php if($notification->notified==0): ?>
+								<?php if($notification->change=="added"): ?>
+									<div class="alert alert-success alert-dismissable">
+										<button type="button" class="close" data-dismiss="alert" aria-hidden="true" value="<?php echo $notification->id; ?>" onclick="usernotified(this);">&times;</button>
+										<?php echo $notification->firstname; ?> has <?php echo $notification->change; ?> 
+										post <strong><?php echo $notification->post_title; ?></strong> in 
+										<a href="group?id=<?php echo $notification->group_id; ?>"><?php echo $notification->group_name; ?></a><br>
+										<?php echo $notification->date; ?>
+									</div>
+								<?php elseif($notification->change=="edited"): ?>
+									<div class="alert alert-info alert-dismissable">
+										<button type="button" class="close" data-dismiss="alert" aria-hidden="true" value="<?php echo $notification->id; ?>" onclick="usernotified(this);">&times;</button>
+										<?php echo $notification->firstname; ?> has <?php echo $notification->change; ?> 
+										post <strong><?php echo $notification->post_title; ?></strong> in 
+										<a href="group?id=<?php echo $notification->group_id; ?>"><?php echo $notification->group_name; ?></a><br>
+										<?php echo $notification->date; ?>
+									</div>
+								<?php elseif($notification->change=="deleted"): ?>
+									<div class="alert alert-danger alert-dismissable">
+										<button type="button" class="close" data-dismiss="alert" aria-hidden="true" value="<?php echo $notification->id; ?>" onclick="usernotified(this);">&times;</button>
+										<?php echo $notification->firstname; ?> has <?php echo $notification->change; ?> 
+										post <strong><?php echo $notification->post_title; ?></strong> in 
+										<a href="group?id=<?php echo $notification->group_id; ?>"><?php echo $notification->group_name; ?></a><br>
+										<?php echo $notification->date; ?>
+									</div>
+								<?php endif; ?>
+							<?php endif; ?>
+						<?php endforeach; ?>
+					<?php else: ?>
+						<div class="alert alert-info">No Notifications</div>
+					<?php endif; ?>
+				</div>
+			</div>
+		
+			<div class="row" style="">
+				<h1>Invitations</h1>
+				<div style="background-color:#FAFAFA;padding:10px;">
+					<?php if(count($invites)>0): ?>
+						<?php foreach($invites as $invite): ?>
+							<div class="alert alert-success">
+								<input type="hidden" value="<?php echo $invite->id; ?>">
+								<div>You have been added to group <strong><?php echo $invite->group_name; ?></strong></div>
+								<div>
+									<a type="button" class="btn btn-info btn-sm" style="text-decoration:none;" onClick="processinvite(this,'accept');">Accept</a>
+									<a type="button" class="btn btn-warning btn-sm" style="text-decoration:none;" onClick="processinvite(this,'reject');">Reject</a>
+								</div>
+							</div>
+						<?php endforeach; ?>
+					<?php else: ?>
+						<div class="alert alert-info">
+							No Pending Invites
+						</div>
+					<?php endif; ?>
+				</div>
+			</div>
+		</div>
+
+	</div>
+</div>
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('layout', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
